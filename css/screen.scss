@@ -1,0 +1,623 @@
+/*
+_______                         _______                        
+___    |__      ____      __    ___    |_______________________
+__  /| |_ | /| / /_ | /| / /    __  /| |__  __ \__  __ \_  ___/
+_  ___ |_ |/ |/ /__ |/ |/ /     _  ___ |_  /_/ /_  /_/ /(__  ) 
+/_/  |_|___/|__/ ____/|__/      /_/  |_|  .___/_  .___//____/  
+                                       /_/     /_/             
+*/
+
+/*////////////////////////////////////////////////////////////////////////////*/
+/*                                   IMPORTS                                  */
+/*////////////////////////////////////////////////////////////////////////////*/
+
+/* Fonts */
+@import url(http://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300,400,600,700,900,200italic,300italic,400italic,600italic,700italic,900italic);
+@import url(http://fonts.googleapis.com/css?family=Source+Code+Pro:200,300,400,500,600,700,900);
+
+/*////////////////////////////////////////////////////////////////////////////*/
+/*                       SASS VARS, MIXINS AND FUNCTIONS                      */
+/*////////////////////////////////////////////////////////////////////////////*/
+
+@mixin centerWithWidth($width) {
+	display: block;
+	margin: 0 auto;
+	max-width: $width;
+}
+
+@mixin center {
+	display: block;
+	margin: 0 auto;
+}
+
+@mixin font-smoothing($value: on) {
+    @if $value == on {
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+    }
+    @else {
+        -webkit-font-smoothing: subpixel-antialiased;
+        -moz-osx-font-smoothing: auto;
+    }
+}
+
+@mixin imageHoverEffect {
+	a img {
+		transition: opacity $duration;
+	}
+	a img:hover {
+		opacity:0.6;
+	}
+}
+
+$fontSize: 14pt;
+$duration: 0.2s;
+$buttonWidth: 140px;
+$mobile: 610px;
+$maxContentWidth: 800px;
+$bigPadding: 120px;
+$mediumPadding: 80px;
+
+
+// Colors
+$darkGray: #808080;
+$blue: #A1E0F4;
+$violet: #884DFB;
+$lightGray: #F2F2F2;
+
+/*////////////////////////////////////////////////////////////////////////////*/
+/*                                   RESET                                    */
+/*////////////////////////////////////////////////////////////////////////////*/
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+/*////////////////////////////////////////////////////////////////////////////*/
+/*                                  GENERAL                                   */
+/*////////////////////////////////////////////////////////////////////////////*/
+
+.verticalAlign {
+	position: relative;
+	top: 50%;
+	-webkit-transform: translateY(-50%);
+	-ms-transform: translateY(-50%);
+	transform: translateY(-50%);
+}
+
+/*////////////////////////////////////////////////////////////////////////////*/
+/*                                    FONT                                    */
+/*////////////////////////////////////////////////////////////////////////////*/
+
+html {
+	@include font-smoothing(off);
+}
+
+body {
+	font-family: 'Source Sans Pro', sans-serif;
+	font-size: $fontSize;
+	word-wrap: break-word;
+}
+
+a {
+	text-decoration: none;
+	transition: opacity $duration, color $duration;
+	&:hover {
+		text-decoration: none;
+	}
+}
+
+h2 {
+	font-size: 28pt;
+	font-weight: 400;
+	color: $darkGray;
+	text-align: center;
+	padding: $bigPadding 0 ($mediumPadding / 2) 0;
+}
+
+h3 {
+	font-size: 18pt;
+	font-weight: 400;
+	color: $darkGray;
+	text-align: center;
+}
+
+p {
+	font-size: 18pt;
+	font-weight: 200;
+	color: $darkGray;
+	text-align: center;
+	padding-bottom: ($mediumPadding /2);
+	@include center;
+	max-width: $maxContentWidth;
+	width: 60%;
+	a {
+		color: $darkGray;
+		text-decoration: underline;
+		&:hover {
+			opacity:0.6;
+			text-decoration: underline;
+		}
+	}
+}
+
+::selection{ 
+	background-color: $blue;
+	color: white;
+}
+::-moz-selection { 
+	background-color: $blue;
+	color: white;
+}
+
+/*////////////////////////////////////////////////////////////////////////////*/
+/*                                     GRID                                   */
+/*////////////////////////////////////////////////////////////////////////////*/
+
+.grid-2 {
+	.gridMember:nth-child(1) {
+		float: left;
+	}
+	.gridMember:nth-child(2) {
+		float: right;
+	}
+	overflow: hidden;
+}
+
+.grid-3 {
+	.gridMember:nth-child(1) {
+		float: left;
+	}
+	.gridMember:nth-child(2) {
+		float: left;
+	}
+	.gridMember:nth-child(3) {
+		float: left;
+	}
+	overflow: hidden;
+}
+
+/*////////////////////////////////////////////////////////////////////////////*/
+/*                                     BUTTON                                 */
+/*////////////////////////////////////////////////////////////////////////////*/
+
+.button {
+	display: block;
+	width: $buttonWidth;
+	border-radius: 40px;
+	padding: 14px 0;
+	text-align: center;
+	transition: color $duration, background-color $duration;
+}
+
+@mixin buttonColor($strokeColor, $hoverFillColor, $hoverTextColor) {
+	color: $strokeColor;
+	border: 2px solid $strokeColor;
+	&:hover {
+		color: $hoverTextColor;
+		background-color: $hoverFillColor;
+	}
+
+}
+
+/*////////////////////////////////////////////////////////////////////////////*/
+/*                               NAVIGATION BAR                               */
+/*////////////////////////////////////////////////////////////////////////////*/
+
+#navBar {
+	background-color: rgba(white, 0.9);
+	z-index: 9999;
+	$fontSize: 12pt;
+	@include imageHoverEffect;
+	line-height: normal;
+	$navBarHeight: 70px;
+	position: fixed;
+	top: 0;
+	width: 100%;
+	height: $navBarHeight;
+	ul {
+		text-align: right;
+		// center ul vertically
+		// $fontSize*96/72 converts pt to px
+		// 1 Point = 1.3333333333333 Pixel
+		margin: ($navBarHeight - ($fontSize * 96 / 72)) / 2 0;
+		margin-right: 20px;
+		li {
+			display: inline;
+			margin: 0 20px;
+			font-weight: 400;
+			font-size: $fontSize;
+		}
+		a {
+			color: $darkGray;
+		    &:hover {
+				opacity:0.3;
+			}
+		}
+	}
+	img {
+		float: left;
+		$iconPadding: 20px;
+		height: $navBarHeight - ($iconPadding * 2);
+		margin: $iconPadding;
+	}
+	@media screen and (max-width: $mobile), screen and (max-device-width: $mobile) {
+		a img {
+			float: none;
+			margin-right: auto;
+			margin-left: auto;
+			display: block;
+		}
+		ul {
+			display: none;
+		}
+	}
+}
+
+/*////////////////////////////////////////////////////////////////////////////*/
+/*                                    HEADER                                  */
+/*////////////////////////////////////////////////////////////////////////////*/
+
+#header {
+	padding: 200px 0;
+	@include font-smoothing(on);
+	h1 {
+		color: white;
+		font-weight: 400;
+		font-size: 30pt;
+		text-align: center;
+		padding-top: 10px;
+		@include centerWithWidth(90%);
+	}
+	#logo {
+		width: 320px;
+		@include center;
+		padding-bottom: 20px;
+	}
+	#background {
+		height: 100%;
+		width: 100%;
+		z-index: -9999;
+		position: absolute;
+		top: 0;
+		background-color: #F5F5F5;
+		background-image: url(../images/logo_gradient.svg);
+		background-size: cover;
+		background-repeat: no-repeat;
+		background-position: center center;
+		-webkit-filter: blur(50px)
+	}
+	position: relative;
+}
+
+/*////////////////////////////////////////////////////////////////////////////*/
+/*                                    WORK                                    */
+/*////////////////////////////////////////////////////////////////////////////*/
+
+#work {
+	background-color: white;
+}
+
+#triangle {
+	$triangleHeight: 70px;
+	background-image: url(../images/triangle.svg);
+	background-size:100% $triangleHeight;
+	height: $triangleHeight;
+	width: 100%;
+	position: relative;
+	bottom: $triangleHeight - 1px;
+	margin-bottom: -$triangleHeight - 1px;
+}
+
+.wrapper {
+	width: 60%;
+	max-width: $maxContentWidth;
+	margin: 0 auto;
+	margin-bottom: $mediumPadding;
+	&:last-child {
+		margin-bottom: $bigPadding;
+	}
+}
+
+.box {
+	width: 100%;
+	padding-bottom: 56.25%; // 16:9
+	position: relative;
+	overflow: hidden;
+	@include font-smoothing(on);
+}
+
+.content {
+	position: absolute;
+	height: 100%;
+    width: 100%;
+}
+
+.description {
+	@include font-smoothing(off);
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    top: 0px;
+    background-repeat: no-repeat;
+    background-size: 90% 100%;
+    opacity: 0;
+    transition: color $duration, opacity $duration;
+	$marginLeft: 10%;
+	h2, p {
+		color: white;
+		text-align: left;
+		margin-left: $marginLeft;
+		max-width: 300px;
+		padding: 0 0 20px 0;
+	}
+	.button {
+		margin-left: $marginLeft;
+	}
+}
+
+#launchHere {
+	// Gradient
+	background-image: -webkit-gradient(
+		linear,
+		left top,
+		left bottom,
+		color-stop(0, #53E4C2),
+		color-stop(1, #4CD0C3)
+	);
+	background-image: -o-linear-gradient(bottom, #53E4C2 0%, #4CD0C3 100%);
+	background-image: -moz-linear-gradient(bottom, #53E4C2 0%, #4CD0C3 100%);
+	background-image: -webkit-linear-gradient(bottom, #53E4C2 0%, #4CD0C3 100%);
+	background-image: -ms-linear-gradient(bottom, #53E4C2 0%, #4CD0C3 100%);
+	background-image: linear-gradient(to bottom, #53E4C2 0%, #4CD0C3 100%);
+
+	#iphone {
+		position: absolute;
+		left: 0;
+		right: 0;
+		margin-left: auto;
+		margin-right: auto;
+		width: 32%;
+		bottom: -42%;
+	}
+	#wave {
+		position: absolute;
+		left: 0;
+		right: 0;
+		margin-left: auto;
+		margin-right: auto;
+		width: 80%;
+		top: -70%;
+	}
+	#launchHereText {
+		@include centerWithWidth(40%);
+	}
+
+	.button {
+		@include buttonColor(white, white, #53E4C3);
+	}
+	.description {
+		background-image: url(../images/shape_launchHere.svg);
+	}
+	&:hover {
+		.description {
+			opacity: 0.9;
+		}
+	}
+}
+
+#blockML {
+	background-color: #E6E6E6;
+	img {
+		@include centerWithWidth(66%);
+	}
+	.description {
+		background-image: url(../images/shape_blockML.svg);
+	}
+	.button {
+		@include buttonColor(white, white, #4D4D4D);
+	}
+	&:hover {
+		.description {
+			opacity: 0.98;
+		}
+	}
+}
+
+#travelRadar {
+	// Gradient
+	background-image: -webkit-gradient(
+	linear,
+	left bottom,
+	left bottom,
+	color-stop(0, #FF66FC),
+	color-stop(1, #E866A7)
+	);
+	background-image: -o-linear-gradient(left bottom, #FF66FC 0%, #E866A7 100%);
+	background-image: -moz-linear-gradient(left bottom, #FF66FC 0%, #E866A7 100%);
+	background-image: -webkit-linear-gradient(left bottom, #FF66FC 0%, #E866A7 100%);
+	background-image: -ms-linear-gradient(left bottom, #FF66FC 0%, #E866A7 100%);
+	background-image: linear-gradient(to left bottom, #FF66FC 0%, #E866A7 100%);
+
+	.description {
+		background-image: url(../images/shape_travelRadar.svg);
+	}
+	&:hover {
+		.description {
+			opacity: 0.86;
+		}
+	}
+	.button {
+		@include buttonColor(white, white, #D9006A);
+	}
+
+	#travelRadarText {
+		@include centerWithWidth(33%);
+	}
+	#bigPlane {
+		opacity: 0.5;
+		position: absolute;
+		width: 50%;
+		bottom: -30%;
+		left: -12%;
+	}
+	#mediumPlane {
+		position: absolute;
+		width: 16%;
+		top: -2%;
+		right: 30%;
+	}
+	#smallPlane {
+		position: absolute;
+		width: 8%;
+		opacity: 0.8;
+		bottom: 10%;
+		right: 10%;
+	}
+}
+
+/*////////////////////////////////////////////////////////////////////////////*/
+/*                                  SERVICES                                  */
+/*////////////////////////////////////////////////////////////////////////////*/
+
+#services {
+	background-color: $lightGray;
+	img {
+		width: 75px;
+		background-color: white;
+		@include center;
+		border-radius: 100%;
+		padding: 35px;
+		margin-bottom: ($bigPadding / 4);
+	}
+	.grid-3 {
+		@include center;
+		width: 600px;
+		max-width: 70%;
+		padding-bottom: $bigPadding;
+	}
+	.gridMember {
+		width: (100% / 3);
+		min-width: 200px;
+	}
+}
+
+/*////////////////////////////////////////////////////////////////////////////*/
+/*                                    ABOUT                                   */
+/*////////////////////////////////////////////////////////////////////////////*/
+
+#about {
+	.face {
+		border-radius: 100%;
+		@include centerWithWidth(200px);
+		margin-bottom: ($bigPadding / 4);
+	}
+	.grid-2 {
+		@include center;
+		width: 600px;
+		padding-bottom: $bigPadding;
+	}
+	.gridMember {
+		width: 50%;
+		p {
+			width: 100%;
+			padding-bottom: 10px;
+		}
+	}
+	ul {
+		list-style: none;
+		@include centerWithWidth(100%);
+		text-align: center;
+	}
+	li {
+		margin: 0 5px;
+		display: inline;
+	}
+	@include imageHoverEffect;
+}
+
+/*////////////////////////////////////////////////////////////////////////////*/
+/*                                   CONTACT                                  */
+/*////////////////////////////////////////////////////////////////////////////*/
+
+#contact {
+	background-color: $lightGray;
+	.button {
+		@include buttonColor($darkGray, $darkGray, white);
+	}
+	.grid-2 {
+		@include centerWithWidth(310px);
+		padding-bottom: $bigPadding;
+
+	}
+	p {
+		padding-bottom: ($mediumPadding /2);
+	}
+
+}
+
+/*////////////////////////////////////////////////////////////////////////////*/
+/*                                 IMPRESSUM                                  */
+/*////////////////////////////////////////////////////////////////////////////*/
+
+#impressum {
+	background-color: white;
+	h1, h2, h3, p {
+		text-align: left;
+		@include center;
+		max-width: $maxContentWidth;
+		width: 60%;
+	}
+	h3 {
+		padding-bottom: 10px;
+	}
+	.button {
+		@include center;
+		@include buttonColor($darkGray, $darkGray, white);
+		margin-bottom: ($mediumPadding /2);
+	}
+}
+
+/*////////////////////////////////////////////////////////////////////////////*/
+/*                                   FOOTER                                   */
+/*////////////////////////////////////////////////////////////////////////////*/
+
+#footer {
+	img {
+		@include centerWithWidth(60px);
+		padding-top: ($mediumPadding /2);
+		padding-bottom: 10px;
+	}
+	@include imageHoverEffect;
+	p {
+		font-size: 12pt;
+	}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
